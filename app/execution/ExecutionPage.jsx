@@ -8,6 +8,7 @@ var React = require('react'),
     Panel = require('react-bootstrap/Panel'),
     ButtonToolbar = require('react-bootstrap/ButtonToolbar'),
     ExecutionForm = require('./ExecutionForm'),
+    AutoScrollContainer = require('./AutoScrollContainer'),
     $ = require('jquery'),
     _ = require('underscore');
 
@@ -63,28 +64,32 @@ var ExecutionPage = React.createClass({
 
     handleResponse: function(message) {
         var sshResult = JSON.parse(message.data);
+        sshResult.highlight = true;
 
         var sshResultMap = this.state.sshResultMap;
         if (sshResultMap[sshResult.server.id]) {
             sshResult.output = sshResultMap[sshResult.server.id].output + sshResult.output;
+            sshResult.update = sshResultMap[sshResult.server.id].update;
+        } else {
+          sshResult.update = _.debounce(function() {
+              var sshResultMap = this.state.sshResultMap;
+              sshResultMap[sshResult.server.id].highlight = false
+              this.setState({sshResultMap: sshResultMap});
+          }.bind(this), 1000);
         }
 
         sshResultMap[sshResult.server.id] = sshResult;
         this.setState({sshResultMap: sshResultMap, webSocket: message.target});
-        var childNodes = this.refs.items.getDOMNode().childNodes;
-        _.each(childNodes, function(child) {
-            child.childNodes[1].scrollTop = child.childNodes[1].scrollHeight;
-        });
+
+        sshResultMap[sshResult.server.id].update();
     },
 
     render: function() {
-      var divStyle = {
-          height: '400'
-      };
       var sshResults = _.map(this.state.sshResultMap, function(sshResult) {
+          var bsStyle = sshResult.highlight ? (sshResult.success ? "success" : "danger") : "default";
           return (
-              <Panel header={<b>{sshResult.server.name}</b>}>
-                <pre className={sshResult.success ? "" : "bg-danger"}>{sshResult.output}</pre>
+              <Panel bsStyle={bsStyle} header={<b>{sshResult.server.name}</b>} isCollapsable={true}>
+                <AutoScrollContainer success={sshResult.success}>{sshResult.output}</AutoScrollContainer>
               </Panel>
           );
       });
