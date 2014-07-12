@@ -2,11 +2,10 @@
 'use strict';
 
 var React = require('react'),
-    PageHeader = require('react-bootstrap/PageHeader'),
     CommandForm = require('./CommandForm'),
+    Command = require('./Command'),
     Button = require('react-bootstrap/Button'),
-    ButtonToolbar = require('react-bootstrap/ButtonToolbar'),
-    Well = require('react-bootstrap/Well'),
+    ButtonBar = require('../components/ButtonBar'),
     HeaderBar = require('../components/HeaderBar'),
     Panel = require('react-bootstrap/Panel'),
     _ = require('underscore'),
@@ -51,33 +50,23 @@ var ComamndPage = React.createClass({
   	render: function() {
       var commands = _.map(this.state.commands, function(command) {
           return <Command deleteCommand={this.deleteCommand} command={command}/>
-      }.bind(this));
+      }, this);
+
+      var commandModal;
+      if (this.state.addCommandModal) {
+          commandModal = <CommandForm groups={this.state.groups} onRequestHide={this.handleModalHide}/>;
+      }
 
   		return (
   			<div>
-  				{this.state.addCommandModal ? <CommandForm groups={this.state.groups} onRequestHide={this.handleModalHide}/> : <span/>}
-  				<PageHeader>Commands</PageHeader>
-          <Well>
-              <ButtonToolbar>
-                  <Button bsStyle="primary" key="command" onClick={this.handleAddCommand}>Add Command</Button>
-              </ButtonToolbar>
-          </Well>
+  				{commandModal}
+          <ButtonBar>
+              <Button bsStyle="primary" key="command" onClick={this.handleAddCommand}>Add Command</Button>
+          </ButtonBar>
           {commands}
   			</div>	
   		);
   	}
-});
-
-var Command = React.createClass({
-    render: function() {
-      var command = this.props.command;
-      return (
-          <Panel header={<HeaderBar title={command.name} handleRemove={this.props.deleteCommand.bind(
-              null, command.id)}/>} key={command.id}>
-              <div><p><b>Notes: </b>{command.note}</p><p><b>Command: </b>{command.script}</p></div>
-          </Panel>
-        )
-    }
 });
 
 module.exports=ComamndPage;

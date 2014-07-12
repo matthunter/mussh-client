@@ -27,7 +27,6 @@ var ExecutionForm = React.createClass({
 
 		var socket = new WebSocket('ws://localhost:7979/executions');
 		socket.onopen = function () {
-			console.log("Socket connection open");
 			socket.send(JSON.stringify({
 				"username": username, 
 				"password": password, 
@@ -45,9 +44,7 @@ var ExecutionForm = React.createClass({
 			handleResponse(sshResult);
 		}
 
-		socket.onclose = function () {
-			this.props.handleExecutionDone();
-		}.bind(this)
+		socket.onclose = this.props.handleExecutionDone;
 	},
 
 	render: function () {

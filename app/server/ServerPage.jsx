@@ -2,16 +2,12 @@
 'use strict';
 
 var React = require('react'),
-    Panel = require('react-bootstrap/Panel'),
     PageHeader = require('react-bootstrap/PageHeader'),
-    Well = require('react-bootstrap/Well'),
     Button = require('react-bootstrap/Button'),
-    ButtonToolbar = require('react-bootstrap/ButtonToolbar'),
-    Grid = require('../components/Grid'),
-    HeaderBar = require('../components/HeaderBar'),
-    Server = require('./Server'),
+    ButtonBar = require('../components/ButtonBar'),
     ServerForm = require('./ServerForm'),
     GroupForm = require('../group/GroupForm'),
+    ServerGroup = require('./ServerGroup'),
     _ = require('underscore'),
     $ = require('jquery');
 
@@ -70,37 +66,26 @@ var ServerPage = React.createClass({
                       deleteServer={this.deleteServer} deleteGroup={this.deleteGroup}/>
       }, this);
 
+      var serverModal;
+      if (this.state.addServerModal) {
+          serverModal = <ServerForm groups={this.state.groups} onRequestHide={this.handleModalHide}/>;
+      }
+      var groupModal;
+      if (this.state.addGroupModal) {
+          groupModal = <GroupForm onRequestHide={this.handleModalHide}/>;
+      }
+
       return (
         <div>
-          {this.state.addServerModal ? <ServerForm groups={this.state.groups} onRequestHide={this.handleModalHide}/> : <span/>}
-          {this.state.addGroupModal ? <GroupForm onRequestHide={this.handleModalHide}/> : <span/>}
-          <PageHeader>Servers</PageHeader>
-          <Well>
-              <ButtonToolbar>
-                  <Button bsStyle="primary" key="group" onClick={this.handleAddGroup}>Add Group</Button>
-                  <Button bsStyle="primary" key="server" onClick={this.handleAddServer}>Add Server</Button>  
-              </ButtonToolbar>
-          </Well>
+          {serverModal}
+          {groupModal}
+          <ButtonBar>
+              <Button bsStyle="primary" key="group" onClick={this.handleAddGroup}>Add Group</Button>
+              <Button bsStyle="primary" key="server" onClick={this.handleAddServer}>Add Server</Button>  
+          </ButtonBar>
           {serverGroups}
         </div>  
       ); 
-    }
-});
-
-var ServerGroup = React.createClass({
-    render: function() {
-      var servers = _.map(this.props.group.servers, function (server, index) {
-          return <Server server={server} key={server.id} deleteServer={this.props.deleteServer.bind(null, server.id)}/>
-      }, this);
-
-      return (
-         <Panel header={<HeaderBar title={this.props.group.name} handleRemove={this.props.deleteGroup.bind(
-              null, this.props.group.id)}/>} key={this.props.index}>
-            <Grid numCols={3} fluid={true}>
-              {servers}
-            </Grid>
-         </Panel>
-      );
     }
 });
 

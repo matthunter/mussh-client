@@ -2,12 +2,11 @@
 'use strict';
 
 var React = require('react'),
-    PageHeader = require('react-bootstrap/PageHeader'),
-    Well = require('react-bootstrap/Well'),
     Button = require('react-bootstrap/Button'),
     Panel = require('react-bootstrap/Panel'),
-    ButtonToolbar = require('react-bootstrap/ButtonToolbar'),
+    ButtonBar = require('../components/ButtonBar'),
     ExecutionForm = require('./ExecutionForm'),
+    SshResult = require('./SshResult'),
     AutoScrollContainer = require('./AutoScrollContainer'),
     $ = require('jquery'),
     _ = require('underscore');
@@ -86,29 +85,30 @@ var ExecutionPage = React.createClass({
 
     render: function() {
       var sshResults = _.map(this.state.sshResultMap, function(sshResult) {
-          var bsStyle = sshResult.highlight ? (sshResult.success ? "success" : "danger") : "default";
-          return (
-              <Panel bsStyle={bsStyle} header={<b>{sshResult.server.name}</b>} isCollapsable={true}>
-                <AutoScrollContainer success={sshResult.success}>{sshResult.output}</AutoScrollContainer>
-              </Panel>
-          );
+          return <SshResult sshResult={sshResult}/>
       });
+      
       var cancelButton;
       if (this.state.webSocket) {
         cancelButton = <Button bsStyle="danger" key="cancel" onClick={this.handleCancelExecution}>Cancel</Button>;
       }
 
+      var executionModal;
+      if (this.state.addExecutionModal) {
+          executionModal = (
+            <ExecutionForm groups={this.state.groups} commands={this.state.commands} 
+                handleResponse={this.handleResponse} onRequestHide={this.handleModalHide} 
+                handleExecutionDone={this.handleExecutionDone}/>
+            );
+      }
+
       return (
         <div>
-          {this.state.addExecutionModal ? <ExecutionForm groups={this.state.groups} commands={this.state.commands} 
-              handleResponse={this.handleResponse} onRequestHide={this.handleModalHide} handleExecutionDone={this.handleExecutionDone}/> : <span/>}
-          <PageHeader>Executions</PageHeader>
-          <Well>
-              <ButtonToolbar>
-                  <Button bsStyle="primary" key="execution" onClick={this.handleAddExecution}>Add Execution</Button>
-                  {cancelButton}
-              </ButtonToolbar>
-          </Well>
+          {executionModal}
+          <ButtonBar>
+              <Button bsStyle="primary" key="execution" onClick={this.handleAddExecution}>Add Execution</Button>
+              {cancelButton}
+          </ButtonBar>
           <div ref="items">
               {sshResults}
           </div>

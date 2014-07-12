@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 'use strict';
 
-var ReactGrid = require('react-bootstrap/Grid'),
+var React = require('react'),
+    ReactGrid = require('react-bootstrap/Grid'),
     Row = require('react-bootstrap/Row'),
     Col = require('react-bootstrap/Col'),
     _ = require('underscore');
