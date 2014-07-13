@@ -3,16 +3,20 @@
 
 var React = require('react'),
     HeaderBar = require('../components/HeaderBar'),
-    Panel = require('react-bootstrap/Panel');
+    TogglePanel = require('../components/TogglePanel');
 
 var Command = React.createClass({
     render: function() {
       var command = this.props.command;
+      var removeAction = {action: this.props.deleteCommand.bind(null, command.id), icon: "trash"};
+
       return (
-          <Panel header={<HeaderBar title={command.name} handleRemove={this.props.deleteCommand.bind(
-              null, command.id)}/>} key={command.id}>
-              <div><p><b>Notes: </b>{command.note}</p><p><b>Command: </b>{command.script}</p></div>
-          </Panel>
+          <TogglePanel title={command.name} actions={[removeAction]} key={command.id} initialIsOpen={false}>
+              <div>
+                  <p><b>Notes: </b>{command.note}</p>
+                  <p><b>Command: </b>{command.script}</p>
+              </div>
+          </TogglePanel>
         )
     }
 });

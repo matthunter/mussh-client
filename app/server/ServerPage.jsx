@@ -89,4 +89,4 @@ var ServerPage = React.createClass({
     }
 });
 
-module.exports=ServerPage;
+module.exports = ServerPage;

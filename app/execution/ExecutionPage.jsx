@@ -109,7 +109,7 @@ var ExecutionPage = React.createClass({
               <Button bsStyle="primary" key="execution" onClick={this.handleAddExecution}>Add Execution</Button>
               {cancelButton}
           </ButtonBar>
-          <div ref="items">
+          <div>
               {sshResults}
           </div>
         </div>  

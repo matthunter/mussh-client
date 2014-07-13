@@ -49,7 +49,7 @@ var ComamndPage = React.createClass({
 
   	render: function() {
       var commands = _.map(this.state.commands, function(command) {
-          return <Command deleteCommand={this.deleteCommand} command={command}/>
+          return <Command key={command.id} deleteCommand={this.deleteCommand} command={command}/>
       }, this);
 
       var commandModal;
