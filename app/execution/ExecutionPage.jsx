@@ -78,9 +78,9 @@ var ExecutionPage = React.createClass({
         }
 
         sshResultMap[sshResult.server.id] = sshResult;
-        this.setState({sshResultMap: sshResultMap, webSocket: message.target});
-
         sshResultMap[sshResult.server.id].update();
+
+        this.setState({sshResultMap: sshResultMap, webSocket: message.target});
     },
 
     render: function() {
