@@ -2,7 +2,7 @@
 'use strict';
 
 var React = require('react'),
-    Panel = require('react-bootstrap/Panel'),
+    TogglePanel = require('../components/TogglePanel'),
     AutoScrollContainer = require('./AutoScrollContainer');
 
 var SshResult = React.createClass({
@@ -10,9 +10,9 @@ var SshResult = React.createClass({
 		var sshResult = this.props.sshResult;
 		var bsStyle = sshResult.highlight ? (sshResult.success ? "success" : "danger") : "default";
 		return (
-			<Panel bsStyle={bsStyle} header={<b>{sshResult.server.name}</b>} isCollapsable={true}>
+			<TogglePanel bsStyle={bsStyle} title={sshResult.server.name}>
 				<AutoScrollContainer success={sshResult.success}>{sshResult.output}</AutoScrollContainer>
-			</Panel>
+			</TogglePanel>
 		);
 	}
 });

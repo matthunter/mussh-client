@@ -21,7 +21,7 @@ var ToggleBar = React.createClass({
 		var headerBar = <HeaderBar title={this.props.title} actions={this.props.actions} toggle={this.togglePanel}/>;
 
 		return (
-			<Panel header={headerBar} isOpen={this.state.isOpen} isCollapsable={true}>
+			<Panel bsStyle={this.props.bsStyle} header={headerBar} isOpen={this.state.isOpen} isCollapsable={true}>
 				{this.props.children}
 			</Panel>
 		);
