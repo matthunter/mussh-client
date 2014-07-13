@@ -4,6 +4,7 @@
 var React = require('react'),
     Button = require('react-bootstrap/Button'),
     Modal = require('react-bootstrap/Modal'),
+    Config = require('../config'),
     _ = require('underscore'),
     $ = require('jquery');
 
@@ -25,7 +26,7 @@ var ExecutionForm = React.createClass({
 	    var commandId = this.refs.commandId.getDOMNode().value.trim();
 		var groupId = this.refs.groupId.getDOMNode().value.trim();
 
-		var socket = new WebSocket('ws://localhost:7979/executions');
+		var socket = new WebSocket(Config.wsRoot + '/executions');
 		socket.onopen = function () {
 			socket.send(JSON.stringify({
 				"username": username, 

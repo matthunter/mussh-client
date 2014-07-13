@@ -8,12 +8,13 @@ var React = require('react'),
     ServerForm = require('./ServerForm'),
     GroupForm = require('../group/GroupForm'),
     ServerGroup = require('./ServerGroup'),
+    Config = require('../config'),
     _ = require('underscore'),
     $ = require('jquery');
 
 var ServerPage = React.createClass({
     loadServers: function() {
-        $.get('http://localhost:7979/groups',
+        $.get(Config.root + '/groups',
           function(groups) {
               this.setState({groups: _.sortBy(groups, function(group) {
                   return group.name.toLowerCase();
@@ -23,7 +24,7 @@ var ServerPage = React.createClass({
 
     deleteServer: function(serverId) {
         $.ajax({
-             url: 'http://localhost:7979/servers/' + serverId,
+             url: Config.root + '/servers/' + serverId,
              type: 'DELETE'
         }).done(function() {
           this.loadServers();
@@ -32,7 +33,7 @@ var ServerPage = React.createClass({
 
     deleteGroup: function(groupId) {
         $.ajax({
-             url: 'http://localhost:7979/groups/' + groupId,
+             url: Config.root + '/groups/' + groupId,
              type: 'DELETE'
         }).done(function() {
           this.loadServers();
@@ -62,8 +63,8 @@ var ServerPage = React.createClass({
 
     render: function() {
       var serverGroups = _.map(this.state.groups, function (group, index) {
-          return <ServerGroup group={group} index={index} key={group.id} 
-                      deleteServer={this.deleteServer} deleteGroup={this.deleteGroup}/>
+          return (<ServerGroup group={group} index={index} key={group.id} 
+                      deleteServer={this.deleteServer} deleteGroup={this.deleteGroup}/>);
       }, this);
 
       var serverModal;

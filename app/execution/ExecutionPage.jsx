@@ -8,6 +8,7 @@ var React = require('react'),
     ExecutionForm = require('./ExecutionForm'),
     SshResult = require('./SshResult'),
     AutoScrollContainer = require('./AutoScrollContainer'),
+    Config = require('../config'),
     $ = require('jquery'),
     _ = require('underscore');
 
@@ -22,7 +23,7 @@ var ExecutionPage = React.createClass({
     },
 
     loadGroups: function() {
-        $.get('http://localhost:7979/groups',
+        $.get(Config.root + '/groups',
             function(groups) {
                 this.setState({groups: _.sortBy(groups, function(group) {
                   return group.name.toLowerCase();
@@ -32,7 +33,7 @@ var ExecutionPage = React.createClass({
     },
 
     loadCommands: function() {
-        $.get('http://localhost:7979/commands',
+        $.get(Config.root + '/commands',
             function(commands) {
                 this.setState({commands: _.sortBy(commands, function(command) {
                   return command.name.toLowerCase();

@@ -4,6 +4,7 @@
 var React = require('react'),
     Button = require('react-bootstrap/Button'),
     Modal = require('react-bootstrap/Modal'),
+    Config = require('../config'),
     _ = require('underscore'),
     $ = require('jquery');
 
@@ -24,7 +25,7 @@ var ServerForm = React.createClass({
 	    var basedir = this.refs.basedir.getDOMNode().value.trim();
 		var groupId = this.refs.groupId.getDOMNode().value.trim();
 
-	    $.post('http://localhost:7979/servers', 
+	    $.post(Config.root + '/servers', 
 			{"name": name, "addr": addr, "port": port, "tunnel": tunnel, "basedir": basedir, "groupIds": groupId},
 			function(data) {
 				this.props.onRequestHide();

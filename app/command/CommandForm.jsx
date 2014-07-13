@@ -4,6 +4,7 @@
 var React = require('react'),
     Button = require('react-bootstrap/Button'),
     Modal = require('react-bootstrap/Modal'),
+    Config = require('../config'),
     $ = require('jquery');
 
 var CommandForm = React.createClass({
@@ -20,7 +21,7 @@ var CommandForm = React.createClass({
         var note = this.refs.note.getDOMNode().value.trim();
         var script = this.refs.script.getDOMNode().value.trim();
 
-        $.post('http://localhost:7979/commands', 
+        $.post(Config.root + '/commands', 
             {"name": name, "note": note, "script": script},
             function(data) {
                 this.props.onRequestHide();

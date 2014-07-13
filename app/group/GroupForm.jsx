@@ -4,6 +4,7 @@
 var React = require('react'),
     Button = require('react-bootstrap/Button'),
     Modal = require('react-bootstrap/Modal'),
+    Config = require('../config'),
     $ = require('jquery');
 
 var GroupForm = React.createClass({
@@ -18,7 +19,7 @@ var GroupForm = React.createClass({
 
 		var name = this.refs.name.getDOMNode().value.trim();
 
-	    $.post('http://localhost:7979/groups', 
+	    $.post(Config.root + '/groups', 
 			{"name": name},
 			function(data) {
 				this.props.onRequestHide();

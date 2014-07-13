@@ -8,12 +8,13 @@ var React = require('react'),
     ButtonBar = require('../components/ButtonBar'),
     HeaderBar = require('../components/HeaderBar'),
     Panel = require('react-bootstrap/Panel'),
+    Config = require('../config'),
     _ = require('underscore'),
     $ = require('jquery');
 
 var ComamndPage = React.createClass({
     loadCommands: function() {
-        $.get('http://localhost:7979/commands',
+        $.get(Config.root + '/commands',
           function(commands) {
               this.setState({commands: _.sortBy(commands, function(command) {
                   return command.name.toLowerCase();
@@ -23,7 +24,7 @@ var ComamndPage = React.createClass({
 
     deleteCommand: function(commandId) {
         $.ajax({
-             url: 'http://localhost:7979/commands/' + commandId,
+             url: Config.root + '/commands/' + commandId,
              type: 'DELETE'
         }).done(function() {
           this.loadCommands();
