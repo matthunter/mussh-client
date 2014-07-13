@@ -1,9 +1,7 @@
 /** @jsx React.DOM */
 'use strict';
 
-var React = require('react'),
-    $ = require('jquery'),
-    _ = require('underscore');
+var React = require('react');
 
 var AutoScrollContainer = React.createClass({
 	componentWillUpdate: function() {
@@ -19,8 +17,12 @@ var AutoScrollContainer = React.createClass({
 	},
 
 	render: function() {
+		var className = this.props.success ? "" : "bg-danger";
+
 		return (
-			<pre style={{resize: "vertical"}} className={this.props.success ? "" : "bg-danger"}>{this.props.children}</pre>
+			<pre style={{height: this.props.height, resize: "vertical"}} className={className}>
+				{this.props.children}
+			</pre>
 		);
 	}
 });

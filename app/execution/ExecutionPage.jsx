@@ -85,7 +85,7 @@ var ExecutionPage = React.createClass({
 
     render: function() {
       var sshResults = _.map(this.state.sshResultMap, function(sshResult) {
-          return <SshResult sshResult={sshResult}/>
+          return <SshResult key={sshResult.server.id} sshResult={sshResult}/>
       });
       
       var cancelButton;

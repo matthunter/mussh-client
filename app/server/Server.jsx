@@ -8,9 +8,10 @@ var React = require('react'),
 var Server = React.createClass({
     render: function() {
         var server = this.props.server;
+        var removeAction = {action: this.props.deleteServer, icon: "trash"};
         return (
           <div>
-            <HeaderBar title={server.name} handleRemove={this.props.deleteServer}/>
+            <HeaderBar title={server.name} actions={[removeAction]}/>
             <Table responsive>
               <tbody>
                 <tr>
