@@ -7,15 +7,15 @@ var React = require('react'),
 
 var SshResult = React.createClass({
 	getInitialState: function() {
-		return {height: 200, icon: "resize-full"};
+		return {height: 200, icon: "chevron-down"};
 	},
 
 	toggleMaximize: function() {
 		var node = this.refs.container.getDOMNode();
 		if (this.state.height !== "auto") {
-			this.setState({height: "auto", icon: "resize-small"});
+			this.setState({height: "auto", icon: "chevron-up"});
 		} else {
-			this.setState({height: 200, icon: "resize-full"});
+			this.setState({height: 200, icon: "chevron-down"});
 		}
 	},
 
